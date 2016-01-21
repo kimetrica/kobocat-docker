@@ -99,3 +99,37 @@ MONGO_DB = MONGO_CONNECTION[MONGO_DATABASE['NAME']]
 
 
 TESTING_MODE = False
+
+
+INSTALLED_APPS = (
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django.contrib.humanize',
+    'django.contrib.admin',
+    'django.contrib.admindocs',
+    'django.contrib.gis',
+    'registration',
+    'south',
+    'reversion',
+    'django_digest',
+    'corsheaders',
+    'oauth2_provider',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'taggit',
+    'readonly',
+    'onadata.apps.logger',
+    'onadata.apps.viewer',
+    'onadata.apps.main',
+    'onadata.apps.restservice',
+    'onadata.apps.api',
+    'guardian',
+    'djcelery',
+    'onadata.apps.stats',
+    'onadata.apps.sms_support',
+    'onadata.libs',
+)
