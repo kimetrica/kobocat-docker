@@ -17,8 +17,11 @@ RUN useradd --create-home kobocat
 RUN chown -R kobocat.kobocat /kobocat
 USER kobocat
 
+RUN git clone https://github.com/kimetrica/kobocat-template.git /kobocat/kobocat-template
+
 # ADDing modified production_example settings to use dockerized mongo & PSQL
 ADD kimetrica_settings.py /kobocat/onadata/settings/kimetrica_settings.py
 ENV DJANGO_SETTINGS_MODULE onadata.settings.kimetrica_settings
 
-CMD python manage.py runserver 0.0.0.0:9000
+#CMD python manage.py runserver 0.0.0.0:9000
+CMD ["gunicorn", "--bind", "0.0.0.0:9000", "onadata.apps.main.wsgi:application"]
