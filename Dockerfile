@@ -5,9 +5,8 @@ FROM python:2.7
 # kobocat needs java, otherwise "Survey Publishing failed: pyxform odk validate dependency: java not found"
 RUN apt-get update && apt-get install -y unzip python-gdal memcached libmemcached-dev default-jre-headless
 
-ADD https://github.com/kimetrica/kobocat/archive/master.zip /master.zip
-
-RUN unzip master.zip && mv kobocat-master kobocat
+# cloning kobocat repo into existing directory (WORKDIR)
+RUN git clone https://github.com/kimetrica/kobocat.git /kobocat && cd /kobocat && git checkout 2.015.46
 
 WORKDIR /kobocat
 
@@ -16,12 +15,11 @@ RUN pip install -r requirements/base.pip -r requirements/dev.pip python-memcache
 RUN useradd --create-home kobocat
 RUN chown -R kobocat.kobocat /kobocat
 USER kobocat
-
+ 
 RUN git clone https://github.com/kimetrica/kobocat-template.git /kobocat/kobocat-template
 
 # ADDing modified production_example settings to use dockerized mongo & PSQL
 ADD kimetrica_settings.py /kobocat/onadata/settings/kimetrica_settings.py
 ENV DJANGO_SETTINGS_MODULE onadata.settings.kimetrica_settings
 
-#CMD python manage.py runserver 0.0.0.0:9000
 CMD ["gunicorn", "--bind", "0.0.0.0:9000", "onadata.apps.main.wsgi:application"]

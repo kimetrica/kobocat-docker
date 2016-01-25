@@ -133,3 +133,17 @@ INSTALLED_APPS = (
     'onadata.apps.sms_support',
     'onadata.libs',
 )
+
+
+# this undocumented setting uses different templates and static files
+TEMPLATE_OVERRIDE_ROOT_DIR = '/kobocat/kobocat-template'
+
+if isinstance(TEMPLATE_OVERRIDE_ROOT_DIR, basestring):
+    # site templates overrides
+    TEMPLATE_DIRS = (
+        os.path.join(PROJECT_ROOT, TEMPLATE_OVERRIDE_ROOT_DIR, 'templates'),
+    ) + TEMPLATE_DIRS
+    # site static files path
+    STATICFILES_DIRS += (
+        os.path.join(PROJECT_ROOT, TEMPLATE_OVERRIDE_ROOT_DIR, 'static'),
+    )
