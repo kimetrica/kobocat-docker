@@ -147,3 +147,6 @@ if isinstance(TEMPLATE_OVERRIDE_ROOT_DIR, basestring):
     STATICFILES_DIRS += (
         os.path.join(PROJECT_ROOT, TEMPLATE_OVERRIDE_ROOT_DIR, 'static'),
     )
+
+ENKETO_API_INSTANCE_IFRAME_URL = 'http://localhost:8005/api_v1/instance/iframe'
+ENKETO_PREVIEW_URL = 'http://localhost:8005/preview'
