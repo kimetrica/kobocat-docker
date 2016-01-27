@@ -3,10 +3,9 @@ FROM python:2.7
 # libmemcached-dev is required by pip package, but libmemcache doesn't work for
 # me, using regular memcached
 # kobocat needs java, otherwise "Survey Publishing failed: pyxform odk validate dependency: java not found"
-RUN apt-get update && apt-get install -y unzip python-gdal memcached libmemcached-dev default-jre-headless
+RUN apt-get update && apt-get install -y unzip python-gdal memcached libmemcached-dev default-jre-headless vim
 
-# cloning kobocat repo into existing directory (WORKDIR)
-RUN git clone https://github.com/kimetrica/kobocat.git /kobocat && cd /kobocat && git checkout 2.015.46
+RUN git clone https://github.com/kimetrica/kobocat.git /kobocat
 
 WORKDIR /kobocat
 
