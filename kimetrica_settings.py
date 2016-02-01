@@ -120,6 +120,7 @@ INSTALLED_APPS = (
     'oauth2_provider',
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework_swagger',
     'taggit',
     'readonly',
     'onadata.apps.logger',
