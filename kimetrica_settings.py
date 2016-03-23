@@ -151,3 +151,38 @@ if isinstance(TEMPLATE_OVERRIDE_ROOT_DIR, basestring):
 
 ENKETO_API_INSTANCE_IFRAME_URL = 'http://localhost:8005/api_v1/instance/iframe'
 ENKETO_PREVIEW_URL = 'http://localhost:8005/preview'
+
+
+
+REST_FRAMEWORK = {
+    # Use hyperlinked styles by default.
+    # Only used if the `serializer_class` attribute is not set on a view.
+    'DEFAULT_MODEL_SERIALIZER_CLASS':
+    'rest_framework.serializers.HyperlinkedModelSerializer',
+
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'onadata.libs.authentication.DigestAuthentication',
+        'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        # disabling this temporarily to prevent error while testing:
+        # "Using basic authentication without HTTPS transmits credentials in
+        # clear text! You MUST connect via HTTPS to use basic authentication."
+#         'onadata.libs.authentication.HttpsOnlyBasicAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.UnicodeJSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+        'rest_framework.renderers.JSONPRenderer',
+        'rest_framework.renderers.XMLRenderer',
+        'rest_framework_csv.renderers.CSVRenderer',
+    ),
+    'VIEW_NAME_FUNCTION': 'onadata.apps.api.tools.get_view_name',
+    'VIEW_DESCRIPTION_FUNCTION': 'onadata.apps.api.tools.get_view_description',
+}
