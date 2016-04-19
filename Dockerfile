@@ -12,7 +12,7 @@ RUN unzip master.zip && rm master.zip && mv -v kobocat-master kobocat
 
 WORKDIR /kobocat
 
-RUN pip install -r requirements/base.pip -r requirements/dev.pip python-memcached
+RUN pip install -r requirements/base.pip -r requirements/dev.pip python-memcached django-rest-swagger
 
 RUN useradd --create-home kobocat
 RUN chown -R kobocat.kobocat /kobocat

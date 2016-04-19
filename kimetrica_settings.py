@@ -25,10 +25,8 @@ DATABASES = {
         'PASSWORD': 'lahWuib2kohDiekeiX6z',
         # the server name may be in env
         'HOST': 'postgresql',
-        'OPTIONS': {
-            # note: this option obsolete starting with django 1.6
-            'autocommit': True,
-        }
+        # Replacement for TransactionMiddleware
+        'ATOMIC_REQUESTS': True,
     },
     'gis': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
@@ -37,9 +35,6 @@ DATABASES = {
         # the password must be stored in an environment variable
         'PASSWORD': 'oke2ooJ7ooz1Wude0tho',
         'HOST': 'postgis',
-        'OPTIONS': {
-            'autocommit': True,
-        }
     }
 }
 
@@ -113,7 +108,6 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.gis',
     'registration',
-    'south',
     'reversion',
     'django_digest',
     'corsheaders',
@@ -153,7 +147,6 @@ ENKETO_API_INSTANCE_IFRAME_URL = 'http://localhost:8005/api_v1/instance/iframe'
 ENKETO_PREVIEW_URL = 'http://localhost:8005/preview'
 
 
-
 REST_FRAMEWORK = {
     # Use hyperlinked styles by default.
     # Only used if the `serializer_class` attribute is not set on a view.
@@ -177,10 +170,13 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     ),
     'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.UnicodeJSONRenderer',
+        # Keep JSONRenderer at the top "in order to send JSON responses to
+        # clients that do not specify an Accept header." See
+        # http://www.django-rest-framework.org/api-guide/renderers/#ordering-of-renderer-classes
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework_jsonp.renderers.JSONPRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
-        'rest_framework.renderers.JSONPRenderer',
-        'rest_framework.renderers.XMLRenderer',
+        'rest_framework_xml.renderers.XMLRenderer',
         'rest_framework_csv.renderers.CSVRenderer',
     ),
     'VIEW_NAME_FUNCTION': 'onadata.apps.api.tools.get_view_name',
